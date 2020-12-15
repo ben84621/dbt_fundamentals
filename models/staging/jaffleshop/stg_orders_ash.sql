@@ -6,7 +6,7 @@ with orders as (
         order_date,
         status
 
-    from tmp_ben_jaffle_shop.orders
+    from {{ source('jaffleshop_ash','orders') }}
 
 )
 
