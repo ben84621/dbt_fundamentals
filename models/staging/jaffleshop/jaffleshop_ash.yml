@@ -1,0 +1,36 @@
+version: 2
+
+models:
+
+    - name: stg_customers_ash
+      description: Staged data from customers table in jaffleshop
+      columns: 
+        - name: customer_id
+          description: primary key
+          tests:
+            - unique
+            - not_null
+
+    - name: stg_orders_ash
+      description: Staged data from orders table in jaffleshop
+      columns: 
+        - name: order_id
+          description: primary key
+          tests:
+            - unique
+            - not_null
+        - name: status
+          description: '{{ doc("order_status_ash") }}'
+          tests:
+            - accepted_values:
+                values:
+                  - completed
+                  - shipped
+                  - returned
+                  - placed
+                  - return_pending
+        - name: customer_id
+          tests:
+            - relationships:
+                to: ref('stg_customers_ash')
+                field: customer_id

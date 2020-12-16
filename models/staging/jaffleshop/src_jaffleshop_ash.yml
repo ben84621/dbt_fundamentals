@@ -1,0 +1,28 @@
+version: 2
+
+sources:
+    - name: jaffleshop_ash
+      database: analytics_qa
+      schema: tmp_ben_jaffle_shop
+      description: Test data for dbt Learn course
+      tables:
+        - name: customers
+          description:  Raw customers table
+          columns:
+            - name: id
+              description: primary key 
+              tests:
+                - unique
+                - not null
+        - name: orders
+          loaded_at_field: _etl_loaded_at
+          freshness:
+            warn_after: {count: 12, period: hour}
+            error_after: {count: 24, period: hour}
+          description: Raw orders table
+          columns:
+            - name: id
+              description: primary key
+              tests:
+                - unique
+                - not null
